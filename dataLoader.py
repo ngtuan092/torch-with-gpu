@@ -3,7 +3,7 @@ from torchvision.datasets import MNIST, FashionMNIST
 from torchvision.transforms import ToTensor
 import matplotlib.pyplot as plt
 from torch.utils.data import random_split, DataLoader
-
+from torchvision.utils import make_grid
 
 def get_dataset():
     return MNIST('data/', download=True, transform=ToTensor())
@@ -25,3 +25,11 @@ if __name__ == '__main__':
     plt.imshow(image[0], cmap='gray')
     plt.show()
     print(f"Label: {target}")
+    train_ld, val_ld = get_dataloader(10000)
+    for batch in train_ld:
+        images, targets = batch
+        plt.figure(figsize=(16, 8))
+        plt.axis('off')
+        plt.imshow(make_grid(images, nrow=16).permute((1, 2, 0)))
+        plt.show()
+        break
